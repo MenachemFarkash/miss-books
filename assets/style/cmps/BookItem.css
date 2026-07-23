@@ -1,5 +1,18 @@
 .book-item {
+    display: flex;
+    flex-direction: column;
     border: 1px solid white;
     padding: 1rem;
     text-align: center;
+    background-color: #393842;
+}
+
+.book-item img {
+    margin-block-end: 1rem;
+}
+
+.book-item button {
+    padding: 0.2rem;
+    cursor: pointer;
+    margin-top: auto;
 }

@@ -1,5 +1,6 @@
 .book-details {
     max-width: 40vw;
+    max-height: 80vh;
 }
 
 .book-details > div {

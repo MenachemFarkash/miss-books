@@ -1,10 +1,24 @@
 .filter-by-container {
     padding: 1rem;
     background-color: #292831;
+    border: 1px solid white;
+    margin-block-end: 1rem;
 }
 
 .filter-by-container fieldset {
     display: flex;
     align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
     border: 1px solid white;
+}
+
+.filter-by-container fieldset > legend {
+    font-size: 1.4rem;
+}
+
+.filter-by-container fieldset > input {
+    height: 2lh;
+    width: 18ch;
 }

@@ -2,7 +2,7 @@ export function AppHeader({ page = "home", onSetPage }) {
     return (
         <header className="app-header full main-layout">
             <section className="header-container">
-                <h1>React Starter Proj</h1>
+                <h1>Miss Books</h1>
                 <nav>
                     <a
                         href="#"

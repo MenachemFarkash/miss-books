@@ -9,6 +9,7 @@ export const bookService = {
     get,
     remove,
     save,
+    getDefaultFilter,
 }
 
 const books = [
@@ -60,8 +61,8 @@ const books = [
 
 function query(filterBy = {}) {
     return storageService.query(BOOK_KEY).then((books) => {
-        if (filterBy.txt) {
-            const regExp = new RegExp(filterBy.txt, "i")
+        if (filterBy.title) {
+            const regExp = new RegExp(filterBy.title, "i")
             books = books.filter((book) => regExp.test(book.title))
         }
         if (filterBy.listPrice) {
@@ -91,8 +92,8 @@ function save(book) {
     }
 }
 
-function getDefaultFilter(filterBy = { txt: "", listPrice: null }) {
-    return { txt: filterBy.txt, listPrice: filterBy.listPrice }
+function getDefaultFilter(filterBy = { title: "", listPrice: null }) {
+    return { title: filterBy.title, listPrice: filterBy.listPrice }
 }
 
 function _createBooks() {
@@ -100,28 +101,48 @@ function _createBooks() {
     if (!books || !books.length) {
         books = []
         const titles = [
-            "Dune",
-            "It",
-            "Emma",
+            "To Kill a Mockingbird",
+            "1984",
+            "Pride and Prejudice",
+            "The Great Gatsby",
+            "Moby-Dick",
+            "War and Peace",
+            "Crime and Punishment",
+            "The Catcher in the Rye",
+            "The Hobbit",
+            "The Lord of the Rings",
+            "Brave New World",
+            "The Grapes of Wrath",
+            "Jane Eyre",
+            "Wuthering Heights",
             "Dracula",
-            "Rebecca",
-            "Matilda",
-            "Coraline",
-            "Shōgun",
-            "Beloved",
-            "Persuasion",
-            "Utopia",
-            "Inferno",
-            "Leviathan",
-            "Hyperion",
-            "Neuromancer",
-            "Annihilation",
-            "Neverwhere",
-            "Piranesi",
-            "Klara",
-            "Sapiens",
+            "Frankenstein",
+            "The Odyssey",
+            "The Iliad",
+            "The Picture of Dorian Gray",
+            "The Count of Monte Cristo",
+            "Les Misérables",
+            "The Adventures of Huckleberry Finn",
+            "Alice's Adventures in Wonderland",
+            "Treasure Island",
+            "The Little Prince",
+            "Fahrenheit 451",
+            "Animal Farm",
+            "Dune",
+            "The Name of the Wind",
+            "The Alchemist",
+            "The Road",
+            "Life of Pi",
+            "The Book Thief",
+            "The Kite Runner",
+            "A Game of Thrones",
+            "The Chronicles of Narnia",
+            "The Shining",
+            "The Stand",
+            "The Martian",
+            "Project Hail Mary",
         ]
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 40; i++) {
             const title = titles[utilService.getRandomIntInclusive(0, titles.length - 1)]
             books.push(_createBook(title, utilService.getRandomIntInclusive(80, 300)))
         }
@@ -133,7 +154,7 @@ function _createBook(title, listPrice = 250) {
     const book = getEmptyBook(title, listPrice)
     book.id = utilService.makeId()
     book.description = utilService.makeLorem(20)
-    book.imgUrl = `assets/img/${utilService.getRandomIntInclusive(0, 20)}.jpeg`
+    book.imgUrl = `assets/img/${utilService.getRandomIntInclusive(1, 20)}.jpeg`
     return book
 }
 

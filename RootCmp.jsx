@@ -12,7 +12,6 @@ export function RootCmp() {
     return (
         <section className="app main-layout">
             <AppHeader page={page} onSetPage={setPage} />
-            <FilterBy />
 
             <main>
                 {page === "Home" && <Home />}

@@ -1,6 +1,7 @@
 .book-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, 10rem);
+    justify-content: center;
     gap: 1rem;
     padding: 1rem;
     background-color: #2a2934;
