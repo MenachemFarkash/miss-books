@@ -6,7 +6,8 @@ import { bookService } from "../services/book.service.js"
 
 export function BookIndex() {
     const [books, setBooks] = useState([])
-    const [selectedBook, setSelectedBood] = useState(null)
+    const [selectedBook, setSelectedBook] = useState(null)
+    const [filterBy, setFilterBy] = useState(bookService.getDe)
 
     useEffect(() => {
         loadBooks()
@@ -17,14 +18,18 @@ export function BookIndex() {
     }
 
     function onSetSelectedBook(book) {
-        setSelectedBood(book)
+        setSelectedBook(book)
+    }
+
+    function onCloseDetails() {
+        setSelectedBook(null)
     }
 
     return (
         <section className="book-index">
             <h2>Welcome to the library</h2>
             <BookList books={books} onSetSelectedBook={onSetSelectedBook} />
-            <BookDetails selectedBook={selectedBook} />
+            <BookDetails selectedBook={selectedBook} onCloseDetails={onCloseDetails} />
         </section>
     )
 }

@@ -1,7 +1,7 @@
-export function BookPreview({ id, title, listPrice }) {
+export function BookPreview({ id, title, listPrice, imgUrl }) {
     return (
-        <div className="book-item">
-            <p className="item-id">{id}</p>
+        <div>
+            <img src={imgUrl} alt="" />
             <p className="item-title">{title}</p>
             <p className="item-price">Price: {listPrice}</p>
         </div>

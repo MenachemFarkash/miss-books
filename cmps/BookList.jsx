@@ -8,8 +8,13 @@ export function BookList({ books, onSetSelectedBook }) {
         <section className="book-list">
             {books.map((book, idx) => {
                 return (
-                    <div key={book.title + idx}>
-                        <BookPreview id={book.id} title={book.title} listPrice={book.listPrice} />
+                    <div key={book.title + idx} className="book-item">
+                        <BookPreview
+                            id={book.id}
+                            title={book.title}
+                            listPrice={book.listPrice}
+                            imgUrl={book.imgUrl}
+                        />
 
                         <button onClick={() => onSetSelectedBook(book)}>Show Details</button>
                     </div>

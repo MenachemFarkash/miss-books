@@ -1,0 +1,10 @@
+.filter-by-container {
+    padding: 1rem;
+    background-color: #292831;
+}
+
+.filter-by-container fieldset {
+    display: flex;
+    align-items: center;
+    border: 1px solid white;
+}

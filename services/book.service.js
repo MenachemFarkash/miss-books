@@ -60,6 +60,14 @@ const books = [
 
 function query(filterBy = {}) {
     return storageService.query(BOOK_KEY).then((books) => {
+        if (filterBy.txt) {
+            const regExp = new RegExp(filterBy.txt, "i")
+            books = books.filter((book) => regExp.test(book.title))
+        }
+        if (filterBy.listPrice) {
+            books = books.filter((book) => book.listPrice <= filterBy.listPrice)
+        }
+
         return books
     })
 }
@@ -81,6 +89,10 @@ function save(book) {
     } else {
         return storageService.post(BOOK_KEY, book)
     }
+}
+
+function getDefaultFilter(filterBy = { txt: "", listPrice: null }) {
+    return { txt: filterBy.txt, listPrice: filterBy.listPrice }
 }
 
 function _createBooks() {
@@ -121,6 +133,7 @@ function _createBook(title, listPrice = 250) {
     const book = getEmptyBook(title, listPrice)
     book.id = utilService.makeId()
     book.description = utilService.makeLorem(20)
+    book.imgUrl = `assets/img/${utilService.getRandomIntInclusive(0, 20)}.jpeg`
     return book
 }
 
