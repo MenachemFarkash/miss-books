@@ -1,9 +1,8 @@
 .main-layout {
-    --gutter-width: 1.6em;
+    --gutter-width: 0.6em;
 
     display: grid;
-    grid-template-columns: 
-        var(--gutter-width) 1fr var(--gutter-width);
+    grid-template-columns: var(--gutter-width) 1fr var(--gutter-width);
 }
 
 .main-layout > * {
@@ -16,7 +15,7 @@
 
 .container {
     --content-width: 800px;
-    --gutter-width: 1em;
+    --gutter-width: 0.7em;
 
     max-width: var(--content-width);
     padding: var(--gutter-width);
