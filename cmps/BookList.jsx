@@ -1,6 +1,6 @@
 const { useState } = React
-import { BookDetails } from "./BookDetails.jsx"
-import { BookPreview } from "./BookPreview.jsx"
+import { BookDetails } from './BookDetails.jsx'
+import { BookPreview } from './BookPreview.jsx'
 
 export function BookList({ books, onSetSelectedBook }) {
     const [selectedPreview, setselectedPreview] = useState(null)
@@ -13,7 +13,7 @@ export function BookList({ books, onSetSelectedBook }) {
                             id={book.id}
                             title={book.title}
                             listPrice={book.listPrice}
-                            imgUrl={book.imgUrl}
+                            thumbnail={book.thumbnail}
                         />
 
                         <button onClick={() => onSetSelectedBook(book)}>Show Details</button>
