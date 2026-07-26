@@ -19,7 +19,25 @@ function query(filterBy = {}) {
             books = books.filter((book) => regExp.test(book.title))
         }
         if (filterBy.listPrice) {
-            books = books.filter((book) => book.listPrice <= filterBy.listPrice)
+            books = books.filter((book) => book.listPrice.amount <= filterBy.listPrice)
+        }
+        if (filterBy.author) {
+            const regExp = new RegExp(filterBy.author, 'i')
+            books = books.filter((book) => regExp.test(book.authors[0]))
+        }
+        if (filterBy.publishDate) {
+            books = books.filter((book) => book.publishedDate >= filterBy.publishDate)
+        }
+        if (filterBy.pageCount) {
+            books = books.filter((book) => book.pageCount <= filterBy.pageCount)
+        }
+        if (filterBy.language) {
+            books = books.filter((book) => book.language === filterBy.language)
+            console.log('here')
+        }
+        if (filterBy.category) {
+            books = books.filter((book) => book.categories[0] === filterBy.category)
+            console.log('here')
         }
 
         return books
@@ -52,6 +70,7 @@ function getDefaultFilter(filterBy = { title: '', listPrice: null }) {
 function _createBooks() {
     const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion']
     const currencies = ['ILS', 'USD', 'EUR']
+    const langs = ['en', 'he', 'fr']
     const books = []
     for (let i = 0; i < 20; i++) {
         const book = {
@@ -64,7 +83,7 @@ function _createBooks() {
             pageCount: utilService.getRandomIntInclusive(20, 600),
             categories: [ctgs[utilService.getRandomIntInclusive(0, ctgs.length - 1)]],
             thumbnail: `assets/img/${i + 1}.jpeg`,
-            language: 'en',
+            language: langs[utilService.getRandomIntInclusive(0, langs.length - 1)],
             listPrice: {
                 amount: utilService.getRandomIntInclusive(20, 180),
                 currencyCode: currencies[utilService.getRandomIntInclusive(0, currencies.length - 1)],
