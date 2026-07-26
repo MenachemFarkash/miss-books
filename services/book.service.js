@@ -59,18 +59,34 @@ function _createBooks() {
             title: utilService.makeLorem(2),
             subtitle: utilService.makeLorem(4),
             authors: [utilService.makeLorem(1)],
-            publishedDate: utilService.getRandomIntInclusive(1950, 2024),
+            publishedDate: utilService.getRandomIntInclusive(1990, 2026),
             description: utilService.makeLorem(20),
             pageCount: utilService.getRandomIntInclusive(20, 600),
             categories: [ctgs[utilService.getRandomIntInclusive(0, ctgs.length - 1)]],
             thumbnail: `assets/img/${i + 1}.jpeg`,
             language: 'en',
             listPrice: {
-                amount: utilService.getRandomIntInclusive(80, 500),
+                amount: utilService.getRandomIntInclusive(20, 180),
                 currencyCode: currencies[utilService.getRandomIntInclusive(0, currencies.length - 1)],
                 isOnSale: Math.random() > 0.7,
             },
         }
+
+        book.readingDifficulty =
+            book.pageCount < 100
+                ? 'Light Reading'
+                : book.pageCount >= 500
+                  ? 'Serious Reading'
+                  : book.pageCount < 500 && book.pageCount > 100
+                    ? 'Descent Reading'
+                    : ''
+
+        book.ageStatus =
+            book.publishedDate - new Date().getFullYear() >= -1
+                ? 'New'
+                : book.publishedDate <= new Date().getFullYear() - 10
+                  ? 'Vintage'
+                  : ''
         books.push(book)
     }
     utilService.saveToStorage(BOOK_KEY, books)

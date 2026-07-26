@@ -47,7 +47,10 @@ export function BookDetails({ selectedBook, onCloseDetails }) {
                                     className="icon book-page-count-icon"
                                     alt=""
                                 />
-                                <span className="page-count">{selectedBook && selectedBook.pageCount}</span>
+                                <span className="page-count">
+                                    {selectedBook && selectedBook.pageCount} (
+                                    {selectedBook && selectedBook.readingDifficulty})
+                                </span>
                             </span>
                             <span className="book-main-category">
                                 <img
@@ -84,7 +87,9 @@ export function BookDetails({ selectedBook, onCloseDetails }) {
                             <span className="tag book-lang-tag">{selectedBook && selectedBook.language}</span>
                         </span>
                         <div className="book-price">
-                            <span className="price">
+                            <span
+                                className={`price ${selectedBook && selectedBook.listPrice.amount > 150 ? 'expensive' : selectedBook && selectedBook.listPrice.amount <= 20 ? 'cheap' : ''}`}
+                            >
                                 <span className="book-price-currency">
                                     {selectedBook && selectedBook.listPrice.currencyCode === 'ILS'
                                         ? '₪'
@@ -104,6 +109,16 @@ export function BookDetails({ selectedBook, onCloseDetails }) {
                         </div>
                     </section>
                 </section>
+                {selectedBook && selectedBook.ageStatus === 'Vintage' ? (
+                    <span className="splash">Vintage</span>
+                ) : selectedBook && selectedBook.ageStatus === 'New' ? (
+                    <span className="splash">New</span>
+                ) : (
+                    ''
+                )}
+                <span className="close-button" onClick={onCloseDetails}>
+                    Close
+                </span>
             </div>
         </dialog>
     )
