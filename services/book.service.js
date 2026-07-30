@@ -1,7 +1,7 @@
-import { utilService } from './util.service.js'
-import { storageService } from './async-storage.service.js'
+import { utilService } from "./util.service.js"
+import { storageService } from "./async-storage.service.js"
 
-const BOOK_KEY = 'booksDB'
+const BOOK_KEY = "booksDB"
 _createBooks()
 
 export const bookService = {
@@ -10,19 +10,20 @@ export const bookService = {
     remove,
     save,
     getDefaultFilter,
+    getEmptyBook,
 }
 
 function query(filterBy = {}) {
     return storageService.query(BOOK_KEY).then((books) => {
         if (filterBy.title) {
-            const regExp = new RegExp(filterBy.title, 'i')
+            const regExp = new RegExp(filterBy.title, "i")
             books = books.filter((book) => regExp.test(book.title))
         }
         if (filterBy.listPrice) {
             books = books.filter((book) => book.listPrice.amount <= filterBy.listPrice)
         }
         if (filterBy.author) {
-            const regExp = new RegExp(filterBy.author, 'i')
+            const regExp = new RegExp(filterBy.author, "i")
             books = books.filter((book) => regExp.test(book.authors[0]))
         }
         if (filterBy.publishDate) {
@@ -33,11 +34,11 @@ function query(filterBy = {}) {
         }
         if (filterBy.language) {
             books = books.filter((book) => book.language === filterBy.language)
-            console.log('here')
+            console.log("here")
         }
         if (filterBy.category) {
             books = books.filter((book) => book.categories[0] === filterBy.category)
-            console.log('here')
+            console.log("here")
         }
 
         return books
@@ -63,15 +64,18 @@ function save(book) {
     }
 }
 
-function getDefaultFilter(filterBy = { title: '', listPrice: null }) {
+function getDefaultFilter(filterBy = { title: "", listPrice: null }) {
     return { title: filterBy.title, listPrice: filterBy.listPrice }
 }
 
 function _createBooks() {
-    const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion']
-    const currencies = ['ILS', 'USD', 'EUR']
-    const langs = ['en', 'he', 'fr']
-    const books = []
+    let books = utilService.loadFromStorage(BOOK_KEY)
+    if (books && books.length > 0) return
+
+    const ctgs = ["Love", "Fiction", "Poetry", "Computers", "Religion"]
+    const currencies = ["ILS", "USD", "EUR"]
+    const langs = ["en", "he", "fr"]
+    books = []
     for (let i = 0; i < 20; i++) {
         const book = {
             id: utilService.makeId(),
@@ -86,26 +90,12 @@ function _createBooks() {
             language: langs[utilService.getRandomIntInclusive(0, langs.length - 1)],
             listPrice: {
                 amount: utilService.getRandomIntInclusive(20, 180),
-                currencyCode: currencies[utilService.getRandomIntInclusive(0, currencies.length - 1)],
+                currencyCode:
+                    currencies[utilService.getRandomIntInclusive(0, currencies.length - 1)],
                 isOnSale: Math.random() > 0.7,
             },
         }
 
-        book.readingDifficulty =
-            book.pageCount < 100
-                ? 'Light Reading'
-                : book.pageCount >= 500
-                  ? 'Serious Reading'
-                  : book.pageCount < 500 && book.pageCount > 100
-                    ? 'Descent Reading'
-                    : ''
-
-        book.ageStatus =
-            book.publishedDate - new Date().getFullYear() >= -1
-                ? 'New'
-                : book.publishedDate <= new Date().getFullYear() - 10
-                  ? 'Vintage'
-                  : ''
         books.push(book)
     }
     utilService.saveToStorage(BOOK_KEY, books)
@@ -119,6 +109,21 @@ function _createBook(title, listPrice = 250) {
     return book
 }
 
-function getEmptyBook(title = '', listPrice = '') {
-    return { title, listPrice }
+function getEmptyBook() {
+    return {
+        title: "",
+        subtitle: "",
+        authors: [],
+        publishedDate: 1950,
+        description: "",
+        pageCount: 0,
+        categories: [],
+        thumbnail: ``,
+        language: "",
+        listPrice: {
+            amount: 0,
+            currencyCode: "",
+            isOnSale: Math.random() > 0.7,
+        },
+    }
 }
