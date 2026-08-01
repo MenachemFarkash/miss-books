@@ -1,5 +1,5 @@
 const { NavLink } = ReactRouterDOM
-export function AppHeader({ page = "home", onSetPage }) {
+export function AppHeader({ page = 'home', onSetPage }) {
     return (
         <header className="app-header full main-layout">
             <section className="header-container">
@@ -10,6 +10,7 @@ export function AppHeader({ page = "home", onSetPage }) {
                     <NavLink to="/about">About</NavLink>
                     <span> | </span>
                     <NavLink to="/book">Books</NavLink>
+                    <span> | </span>
                     <NavLink to="/book/edit">Test Edit</NavLink>
                 </nav>
             </section>

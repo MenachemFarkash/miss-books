@@ -1,14 +1,19 @@
 const { useEffect, useState } = React
-import { BookDetails } from "../cmps/BookDetails.jsx"
-import { BookList } from "../cmps/BookList.jsx"
-import { BookPreview } from "../cmps/BookPreview.jsx"
-import { FilterBy } from "../cmps/FilterBy.jsx"
-import { bookService } from "../services/book.service.js"
+const { useNavigate } = ReactRouter
+const { Outlet } = ReactRouterDOM
+import { BookDetails } from '../cmps/BookDetails.jsx'
+import { BookList } from '../cmps/BookList.jsx'
+import { BookPreview } from '../cmps/BookPreview.jsx'
+import { FilterBy } from '../cmps/FilterBy.jsx'
+import { bookService } from '../services/book.service.js'
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 export function BookIndex() {
     const [books, setBooks] = useState([])
     const [selectedBook, setSelectedBook] = useState(null)
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadBooks()
@@ -24,6 +29,19 @@ export function BookIndex() {
 
     function onCloseDetails() {
         setSelectedBook(null)
+        navigate('/book')
+    }
+
+    function onDeleteBook(bookId) {
+        bookService.remove(bookId).then(() => {
+            setBooks((prev) => prev.filter((book) => book.id !== bookId))
+            onClearFilter()
+            showSuccessMsg(`Book ${bookId} deleted`)
+        })
+    }
+
+    function onClearFilter() {
+        setFilterBy(bookService.getDefaultFilter())
     }
 
     return (
@@ -31,8 +49,8 @@ export function BookIndex() {
             <h2>Welcome to the library</h2>
             <FilterBy filterBy={filterBy} setFilterBy={setFilterBy} />
 
-            <BookList books={books} onSetSelectedBook={onSetSelectedBook} />
-            <BookDetails selectedBook={selectedBook} onCloseDetails={onCloseDetails} />
+            <BookList books={books} onSetSelectedBook={onSetSelectedBook} onDeleteBook={onDeleteBook} />
+            <Outlet />
         </section>
     )
 }

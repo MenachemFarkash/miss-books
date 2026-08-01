@@ -1,7 +1,7 @@
-import { utilService } from "./util.service.js"
-import { storageService } from "./async-storage.service.js"
+import { utilService } from './util.service.js'
+import { storageService } from './async-storage.service.js'
 
-const BOOK_KEY = "booksDB"
+const BOOK_KEY = 'booksDB'
 _createBooks()
 
 export const bookService = {
@@ -16,14 +16,14 @@ export const bookService = {
 function query(filterBy = {}) {
     return storageService.query(BOOK_KEY).then((books) => {
         if (filterBy.title) {
-            const regExp = new RegExp(filterBy.title, "i")
+            const regExp = new RegExp(filterBy.title, 'i')
             books = books.filter((book) => regExp.test(book.title))
         }
         if (filterBy.listPrice) {
             books = books.filter((book) => book.listPrice.amount <= filterBy.listPrice)
         }
         if (filterBy.author) {
-            const regExp = new RegExp(filterBy.author, "i")
+            const regExp = new RegExp(filterBy.author, 'i')
             books = books.filter((book) => regExp.test(book.authors[0]))
         }
         if (filterBy.publishDate) {
@@ -34,11 +34,9 @@ function query(filterBy = {}) {
         }
         if (filterBy.language) {
             books = books.filter((book) => book.language === filterBy.language)
-            console.log("here")
         }
         if (filterBy.category) {
             books = books.filter((book) => book.categories[0] === filterBy.category)
-            console.log("here")
         }
 
         return books
@@ -64,7 +62,7 @@ function save(book) {
     }
 }
 
-function getDefaultFilter(filterBy = { title: "", listPrice: null }) {
+function getDefaultFilter(filterBy = { title: '', listPrice: null }) {
     return { title: filterBy.title, listPrice: filterBy.listPrice }
 }
 
@@ -72,9 +70,9 @@ function _createBooks() {
     let books = utilService.loadFromStorage(BOOK_KEY)
     if (books && books.length > 0) return
 
-    const ctgs = ["Love", "Fiction", "Poetry", "Computers", "Religion"]
-    const currencies = ["ILS", "USD", "EUR"]
-    const langs = ["en", "he", "fr"]
+    const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion']
+    const currencies = ['ILS', 'USD', 'EUR']
+    const langs = ['en', 'he', 'fr']
     books = []
     for (let i = 0; i < 20; i++) {
         const book = {
@@ -90,8 +88,7 @@ function _createBooks() {
             language: langs[utilService.getRandomIntInclusive(0, langs.length - 1)],
             listPrice: {
                 amount: utilService.getRandomIntInclusive(20, 180),
-                currencyCode:
-                    currencies[utilService.getRandomIntInclusive(0, currencies.length - 1)],
+                currencyCode: currencies[utilService.getRandomIntInclusive(0, currencies.length - 1)],
                 isOnSale: Math.random() > 0.7,
             },
         }
@@ -109,20 +106,31 @@ function _createBook(title, listPrice = 250) {
     return book
 }
 
+function _setNextPrevBookId(book) {
+    return storageService.query(BOOK_KEY).then((books) => {
+        const bookIdx = books.findIndex((currBook) => currBook.id === book.id)
+        const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0]
+        const prevBook = books[bookIdx - 1] ? books[bookIdx - 1] : books[books.length - 1]
+        book.nextBookId = nextBook.id
+        book.prevBookId = prevBook.id
+        return book
+    })
+}
+
 function getEmptyBook() {
     return {
-        title: "",
-        subtitle: "",
+        title: '',
+        subtitle: '',
         authors: [],
         publishedDate: 1950,
-        description: "",
+        description: '',
         pageCount: 0,
         categories: [],
         thumbnail: ``,
-        language: "",
+        language: '',
         listPrice: {
             amount: 0,
-            currencyCode: "",
+            currencyCode: '',
             isOnSale: Math.random() > 0.7,
         },
     }

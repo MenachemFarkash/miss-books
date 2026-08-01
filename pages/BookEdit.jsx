@@ -1,4 +1,5 @@
-import { bookService } from "../services/book.service.js"
+import { bookService } from '../services/book.service.js'
+import { showSuccessMsg } from '../services/event-bus.service.js'
 
 const { useEffect, useState } = React
 const { useParams, useNavigate } = ReactRouter
@@ -18,31 +19,26 @@ export function BookEdit() {
 
     function handleChange({ target }) {
         const { value, type, name } = target
-        if (name === "ListPrice" && type === "number") {
+        if (name === 'ListPrice' && type === 'number') {
             setBook((prev) => ({ ...prev, listPrice: { ...prev.listPrice, amount: +value } }))
         }
-        setBook((prev) => ({ ...prev, [name]: type === "number" ? +value : value }))
+        setBook((prev) => ({ ...prev, [name]: type === 'number' ? +value : value }))
     }
 
     function onSaveBook(ev) {
         ev.preventDefault()
 
         bookService.save(book).then((book) => {
-            navigate("/book")
+            showSuccessMsg(`Book ${book.id} edited successfuly`)
+            navigate('/book')
         })
     }
 
     return (
         <form onSubmit={onSaveBook}>
+            <input value={book.title} onChange={handleChange} type="text" name="title" placeholder="Title" />
             <input
-                value={book.title}
-                onChange={handleChange}
-                type="text"
-                name="title"
-                placeholder="Title"
-            />
-            <input
-                value={book.listPrice.amount || ""}
+                value={book.listPrice.amount || ''}
                 onChange={handleChange}
                 type="number"
                 name="ListPrice"

@@ -4,7 +4,12 @@
     max-width: 60vw;
     height: clamp(50vh, 55vh, 60vh);
     padding-block: 1rem;
+    padding-inline: 2rem;
     overflow: visible;
+    scrollbar-width: none;
+
+    /* IE and old Edge */
+    -ms-overflow-style: none;
 }
 
 .book-details-dialog * {
@@ -145,6 +150,7 @@
     width: fit-content;
     height: fit-content;
     cursor: pointer;
+    z-index: 1;
 }
 
 @media (max-width: 880px) {
@@ -184,4 +190,30 @@
     .book-metadata-container .book-price .price {
         font-size: 1.5rem;
     }
+}
+
+.next-book-button,
+.prev-book-button {
+    display: inline-flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    font-size: 3rem;
+    padding: auto auto;
+    cursor: pointer;
+}
+
+.next-book-button {
+    right: 0;
+}
+.prev-book-button {
+    left: 0;
+}
+
+.next-book-button:hover {
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.414));
+}
+.prev-book-button:hover {
+    background: linear-gradient(to left, transparent, rgba(255, 255, 255, 0.414));
 }

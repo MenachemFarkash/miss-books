@@ -1,17 +1,17 @@
 /* Setup */
-@import "setup/vars.css";
+@import 'setup/vars.css';
 
 /* Base */
-@import "base/reset.css";
-@import "base/helpers.css";
-@import "base/layout.css";
+@import 'base/reset.css';
+@import 'base/helpers.css';
+@import 'base/layout.css';
 
 /* Components */
-@import "cmps/Home.css";
-@import "cmps/AppHeader.css";
-@import "cmps/UserMsg.css";
-@import "cmps/RootCmp.css";
-@import "cmps/BookList.css";
-@import "cmps/BookItem.css";
-@import "cmps/BookDetails.css";
-@import "cmps/FilterBy.css";
+@import 'cmps/Home.css';
+@import 'cmps/AppHeader.css';
+@import 'cmps/PopupMsg.css';
+@import 'cmps/RootCmp.css';
+@import 'cmps/BookList.css';
+@import 'cmps/BookItem.css';
+@import 'cmps/BookDetails.css';
+@import 'cmps/FilterBy.css';
