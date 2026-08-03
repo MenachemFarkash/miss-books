@@ -5,7 +5,7 @@ export function BookReview({ fullName, rating, readAt }) {
     return (
         <div>
             <p>Name: {fullName}</p>
-            <p>Rating: {rating}</p>
+            <p>Rating: {'⭐'.repeat(rating)}</p>
             <p>Reading Date: {formatDate(readAt)}</p>
         </div>
     )

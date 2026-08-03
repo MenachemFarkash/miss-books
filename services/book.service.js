@@ -14,6 +14,8 @@ export const bookService = {
     getDefaultFilter,
     getEmptyBook,
     getBookReviews,
+    getEmptyReview,
+    addReview,
 }
 
 function query(filterBy = {}) {
@@ -178,4 +180,8 @@ function getBookReviews(bookId) {
     return storageService
         .query(REVIEW_KEY, bookId)
         .then((reviews) => reviews.filter((review) => review.bookId === bookId))
+}
+
+function addReview(review) {
+    return storageService.post(REVIEW_KEY, review)
 }

@@ -8,6 +8,7 @@ import { FilterBy } from './cmps/FilterBy.jsx'
 import { BookEdit } from './pages/BookEdit.jsx'
 import { PopupMsg } from './cmps/PopupMsg.jsx'
 import { BookDetails } from './cmps/BookDetails.jsx'
+import { AddReview } from './cmps/AddReview.jsx'
 
 export function RootCmp() {
     return (
@@ -23,6 +24,7 @@ export function RootCmp() {
                         <Route path="/book/edit" element={<BookEdit />} />
                         <Route path="/book/:id" element={<BookDetails />} />
                         <Route path="/book/edit/:id" element={<BookEdit />} />
+                        <Route path="/book/review/:id" element={<AddReview />} />
                     </Routes>
                 </main>
                 <PopupMsg />
