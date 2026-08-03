@@ -1,0 +1,18 @@
+.reviews-container {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 1em;
+    padding: 1em;
+    border: 1px solid white;
+}
+
+.add-review-button {
+    border: 1px solid white;
+    text-align: center;
+    padding: 1em;
+    cursor: pointer;
+}
+
+.add-review-button:hover {
+    scale: 1.03;
+}

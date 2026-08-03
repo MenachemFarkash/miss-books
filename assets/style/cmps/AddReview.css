@@ -1,0 +1,5 @@
+.add-review-container {
+    display: grid;
+    place-items: center;
+    gap: 1em;
+}

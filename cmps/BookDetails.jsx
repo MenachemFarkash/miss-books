@@ -1,5 +1,6 @@
 const { useState } = React
 import { bookService } from '../services/book.service.js'
+import { BookReviews } from './BookReviews.jsx'
 
 const { useRef, useEffect } = React
 const { useParams } = ReactRouter
@@ -8,7 +9,6 @@ const { useNavigate } = ReactRouterDOM
 export function BookDetails() {
     const [book, setBook] = useState()
 
-    const elDialog = useRef()
     const navigate = useNavigate()
 
     const { id: bookId } = useParams()
@@ -17,7 +17,6 @@ export function BookDetails() {
         bookService.get(bookId).then((book) => {
             setBook(book)
         })
-        elDialog.current.showModal()
     }, [bookId])
 
     function difficulty() {
@@ -56,13 +55,13 @@ export function BookDetails() {
             status = 'New'
         } else if (book.publishedDate <= new Date().getFullYear() - 10) {
             status = 'Vintage'
-        } else return status
+        }
 
         return status
     }
 
     return (
-        <dialog onClose={() => navigate('/book')} ref={elDialog} closedby="any">
+        <div className="book-details-main-container">
             {book && (
                 <div className="book-details-dialog">
                     <section className="book-details-image-container">
@@ -138,12 +137,12 @@ export function BookDetails() {
                                 )}
                             </div>
                         </section>
+                        <section className="book-reviews-container">
+                            <BookReviews bookId={bookId} />
+                        </section>
                     </section>
                     <span className="splash">{ageStatus()}</span>
 
-                    <span className="close-button" onClick={() => navigate('/book')}>
-                        Close
-                    </span>
                     <span className="next-book-button" onClick={() => navigate(`/book/${book.nextBookId}`)}>
                         {'>'}
                     </span>
@@ -152,6 +151,6 @@ export function BookDetails() {
                     </span>
                 </div>
             )}
-        </dialog>
+        </div>
     )
 }

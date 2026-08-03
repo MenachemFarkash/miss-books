@@ -2,7 +2,9 @@ import { utilService } from './util.service.js'
 import { storageService } from './async-storage.service.js'
 
 const BOOK_KEY = 'booksDB'
+const REVIEW_KEY = 'reviewsDB'
 _createBooks()
+_createReviews()
 
 export const bookService = {
     query,
@@ -11,6 +13,9 @@ export const bookService = {
     save,
     getDefaultFilter,
     getEmptyBook,
+    getBookReviews,
+    getEmptyReview,
+    addReview,
 }
 
 function query(filterBy = {}) {
@@ -98,6 +103,12 @@ function _createBooks() {
     utilService.saveToStorage(BOOK_KEY, books)
 }
 
+function getRandomBookId() {
+    const books = utilService.loadFromStorage(BOOK_KEY)
+
+    return books[utilService.getRandomIntInclusive(0, books.length - 1)].id
+}
+
 function _createBook(title, listPrice = 250) {
     const book = getEmptyBook(title, listPrice)
     book.id = utilService.makeId()
@@ -134,4 +145,43 @@ function getEmptyBook() {
             isOnSale: Math.random() > 0.7,
         },
     }
+}
+
+window.getBookReviews = getBookReviews
+
+function _createReviews() {
+    let reviews = utilService.loadFromStorage(REVIEW_KEY)
+    if (reviews && reviews.length > 0) return
+
+    reviews = []
+    for (let i = 0; i < 20; i++) {
+        const review = {
+            bookId: getRandomBookId(),
+            fullName: utilService.makeLorem(2),
+            rating: utilService.getRandomIntInclusive(1, 5),
+            readAt: Date.now(),
+        }
+
+        reviews.push(review)
+    }
+
+    utilService.saveToStorage(REVIEW_KEY, reviews)
+}
+
+function getEmptyReview() {
+    return {
+        fullName: '',
+        rating: 0,
+        readAt: Date.now(),
+    }
+}
+
+function getBookReviews(bookId) {
+    return storageService
+        .query(REVIEW_KEY, bookId)
+        .then((reviews) => reviews.filter((review) => review.bookId === bookId))
+}
+
+function addReview(review) {
+    return storageService.post(REVIEW_KEY, review)
 }
